@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c"%>
 
-<!--临时 登录页面  -->
+<!--临时 登录页面  通过邮箱密码登录-->
 
 <!DOCTYPE html>
 <html>

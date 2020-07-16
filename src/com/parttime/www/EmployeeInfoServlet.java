@@ -18,26 +18,16 @@ import com.parttime.model.Employee;
 import com.parttime.service.EmployeeService;
 import com.parttime.util.Conversion;
 
-/**
- * Servlet implementation class EmployeeInfoServlet
- */
 @WebServlet("/EmployeeInfoServlet")
 public class EmployeeInfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	EmployeeService service = new EmployeeService();
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
 	public EmployeeInfoServlet() {
 		super();
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 设置字符集
