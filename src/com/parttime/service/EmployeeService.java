@@ -1,10 +1,14 @@
 package com.parttime.service;
 
+/**
+ * 雇员信息处理
+ */
 import java.util.List;
 
 import com.parttime.dao.EmployeeDao;
 import com.parttime.model.Address;
 import com.parttime.model.Employee;
+import com.parttime.model.OrderAndRecruitment;
 
 public class EmployeeService {
 	EmployeeDao dao = new EmployeeDao();
@@ -52,5 +56,10 @@ public class EmployeeService {
 	// 通过雇员编号查询地址信息
 	public List<Address> queryAddress(Address add) throws Exception {
 		return dao.queryAddress(add);
+	}
+
+	// 通过雇员id查找订单信息
+	public List<OrderAndRecruitment> queryOrders(Employee emp) throws Exception {
+		return dao.queryOrders(emp);
 	}
 }

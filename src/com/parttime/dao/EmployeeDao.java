@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.parttime.model.Address;
 import com.parttime.model.Employee;
+import com.parttime.model.OrderAndRecruitment;
+import com.parttime.model.Orders;
 import com.parttime.util.JdbcUtil;
 
 public class EmployeeDao {
@@ -69,5 +71,20 @@ public class EmployeeDao {
 				+ "address_detail,employee_id,business_id from address where employee_id = ?";
 		List<Address> address_list = jdbc.queryPreparedStatement(sql, Address.class, add.getEmployee_id());
 		return address_list;
+	}
+
+	// 通过雇员id查找订单信息
+	public List<OrderAndRecruitment> queryOrders(Employee emp) throws Exception {
+		sql = "SELECT	orders_id,	orders.employee_id,	orders.employee_name,	employee_sex,	"
+				+ "employee_education,	employee_tell,	employee_resume,"
+				+ "orders.business_id,	orders.business_name,	orders.recruitment_id,	"
+				+ "orders.recruitment_name,	orders_state,	employee_evaluated,	business_evaluated,"
+				+ "	orders_time ,recruitment_area,recruitment_salary,recruitment_num,recruitment_time,"
+				+ "recruitment_duration,recruitment_welfare,recruitment_jobcontent,"
+				+ "recruitment_jobrequirements,recruitment_label	FROM	orders ,"
+				+ "recruitment WHERE	 orders.recruitment_id =  recruitment.recruitment_id "
+				+ " and orders.employee_id = ?";
+		List<OrderAndRecruitment> orders_list = jdbc.queryPreparedStatement(sql, OrderAndRecruitment.class, emp.getEmployee_id());
+		return orders_list;
 	}
 }

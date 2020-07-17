@@ -1,11 +1,18 @@
 package com.parttime.www;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.parttime.model.Employee;
+import com.parttime.model.OrderAndRecruitment;
+import com.parttime.service.EmployeeService;
 
 /**
  * 处理订单信息
@@ -13,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/EmployeeOrdersServlet")
 public class EmployeeOrdersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
+	EmployeeService service = new EmployeeService();
 
 	public EmployeeOrdersServlet() {
 		super();
@@ -45,7 +54,20 @@ public class EmployeeOrdersServlet extends HttpServlet {
 	// 跳转到我的订单页面
 	protected void toorder(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.getRequestDispatcher("orders.jsp").forward(request, response);
+		try {
+			// 查询session中 账户信息
+			HttpSession session = request.getSession();
+			Employee employee = (Employee) session.getAttribute("employee");
+			
+			// 通过雇员id查找订单信息
+			List<OrderAndRecruitment> orders_list = service.queryOrders(employee);
+			request.setAttribute("orders_list", orders_list);
+			
+			request.getRequestDispatcher("orders.jsp").forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.sendRedirect("error.jsp");
+		}
 	}
 
 }

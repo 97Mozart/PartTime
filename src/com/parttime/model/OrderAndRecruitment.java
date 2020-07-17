@@ -3,10 +3,9 @@ package com.parttime.model;
 import java.util.Date;
 
 /*
- * 对应订单表	orders
+ * 订单	工作 链表
  */
-
-public class Orders {
+public class OrderAndRecruitment {
 	private Integer orders_id;// 订单编号 自增
 	private Integer employee_id;// 雇员编号
 	private String employee_name;// 雇员姓名
@@ -22,6 +21,16 @@ public class Orders {
 	private String employee_evaluated;// 雇员对商家的评价标记 YES NO
 	private String business_evaluated;// 商家对雇员的评价标记 YES NO
 	private Date orders_time;// 订单时间
+
+	private String recruitment_area;// 工作地址
+	private Double recruitment_salary;// 薪资
+	private Integer recruitment_num;// 需求人员
+	private Date recruitment_time;// 工作时间 可自动以当前时间开始
+	private Integer recruitment_duration;// 工作时长
+	private String recruitment_welfare;// 工作福利
+	private String recruitment_jobcontent;// 工作内容
+	private String recruitment_jobrequirements;// 工作要求
+	private String recruitment_label;// 工作标签
 
 	public Integer getOrders_id() {
 		return orders_id;
@@ -141,6 +150,78 @@ public class Orders {
 
 	public void setOrders_time(Date orders_time) {
 		this.orders_time = orders_time;
+	}
+
+	public String getRecruitment_area() {
+		return recruitment_area;
+	}
+
+	public void setRecruitment_area(String recruitment_area) {
+		this.recruitment_area = recruitment_area;
+	}
+
+	public Double getRecruitment_salary() {
+		return recruitment_salary;
+	}
+
+	public void setRecruitment_salary(Double recruitment_salary) {
+		this.recruitment_salary = recruitment_salary;
+	}
+
+	public Integer getRecruitment_num() {
+		return recruitment_num;
+	}
+
+	public void setRecruitment_num(Integer recruitment_num) {
+		this.recruitment_num = recruitment_num;
+	}
+
+	public Date getRecruitment_time() {
+		return recruitment_time;
+	}
+
+	public void setRecruitment_time(Date recruitment_time) {
+		this.recruitment_time = recruitment_time;
+	}
+
+	public Integer getRecruitment_duration() {
+		return recruitment_duration;
+	}
+
+	public void setRecruitment_duration(Integer recruitment_duration) {
+		this.recruitment_duration = recruitment_duration;
+	}
+
+	public String getRecruitment_welfare() {
+		return recruitment_welfare;
+	}
+
+	public void setRecruitment_welfare(String recruitment_welfare) {
+		this.recruitment_welfare = recruitment_welfare;
+	}
+
+	public String getRecruitment_jobcontent() {
+		return recruitment_jobcontent;
+	}
+
+	public void setRecruitment_jobcontent(String recruitment_jobcontent) {
+		this.recruitment_jobcontent = recruitment_jobcontent;
+	}
+
+	public String getRecruitment_jobrequirements() {
+		return recruitment_jobrequirements;
+	}
+
+	public void setRecruitment_jobrequirements(String recruitment_jobrequirements) {
+		this.recruitment_jobrequirements = recruitment_jobrequirements;
+	}
+
+	public String getRecruitment_label() {
+		return recruitment_label;
+	}
+
+	public void setRecruitment_label(String recruitment_label) {
+		this.recruitment_label = recruitment_label;
 	}
 
 }
