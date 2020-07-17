@@ -62,8 +62,6 @@ public class UserServlet extends HttpServlet {
 		String sql = "select * from employee where employee_email=? and employee_password = ?";
 		try {
 			List<Employee> employees = jdbc.queryPreparedStatement(sql, Employee.class, username, password);
-			jdbc.close();
-
 			// 登录成功
 			if (employees.size() > 0) {
 				Employee employee = employees.get(0);
