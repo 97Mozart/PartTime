@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!-- 我的订单页面 -->
+<!-- 我的评价页面 -->
 <!DOCTYPE html >
 <html>
 <head>
@@ -31,56 +31,46 @@
 		<div class="top">
 			<font>我的订单</font>
 		</div>
-		<c:forEach items="${orders_list}" var="orders">
+		<c:forEach items="${evaluation_list}" var="evaluation">
 			<div class="row clearfix">
 				<div class="col-md-12 column">
 					<div class="row clearfix">
 						<!--商家信息-->
 						<div class="col-md-6 column">
 
-							<h3>${orders.business_name}</h3>
+							<h3>${evaluation.business_name}</h3>
 
 						</div>
 						<div class="col-md-6 column"></div>
 					</div>
-					<!--工作描述-->
-					<p>${orders.recruitment_jobcontent}</p>
-					<!--工作要求-->
-					<p>${orders.recruitment_jobrequirements}</p>
+					<!--评价等级-->
+					<p>${evaluation.business_evaluation_rate}</p>
+					<!--评价内容-->
+					<p>${evaluation.business_evaluation_context}</p>
 					<div class="row clearfix">
 						<div class="col-md-6 column">
 							<div class="row clearfix">
 								<div class="col-md-8 column">
-									<!--工作状态-->
-									<p>${orders.orders_state}</p>
+									
 								</div>
 								<div class="col-md-4 column"></div>
 							</div>
 						</div>
 						<div class="col-md-6 column">
 							<div class="row clearfix">
-								<!--评价-->
 								<form action="EmployeeOrdersServlet" method="post">
 									<input type="hidden" name="action" value="toBewerten">
 									<div class="col-md-6 column">
-										<c:if test="${orders.employee_evaluated == 'YES'}">
-											<button type="button" class="btn btn-default" disabled>已评价</button>
-										</c:if>
-										<!-- 判断工作是否已完成 -->
-										<c:if test="${orders.employee_evaluated != 'YES' && (orders.orders_state == '已完成' || orders.orders_state == '已结账')}">
-											<button type="button" class="btn btn-default">评价</button>
-										</c:if>
+									
 									</div>
 								</form>
-								<!--申请仲裁-->
+								<!--删除评价-->
 								<div class="col-md-6 column">
 									<form action="EmployeeOrdersServlet" method="post">
-										<input type="hidden" name="action" value="toArbitration">
-										<input type="hidden" name="orders_id" value="${orders.orders_id}">
-										<input type="hidden" name="employee_id" value="${orders.employee_id}">
-										<input type="hidden" name="business_name" value="${orders.business_name}">
+										<input type="hidden" name="action" value="deleteEvaluation">
+										<input type="hidden" name="business_evaluation_id" value="${evaluation.business_evaluation_id}">
 										<c:set var="OrderAndRecruitment" value="${orders}" scope="request"></c:set>
-										<button type="submit" class="btn btn-default">申请仲裁</button>
+										<button type="submit" class="btn btn-default">删除评价</button>
 									</form>
 								</div>
 							</div>
@@ -88,7 +78,6 @@
 					</div>
 				</div>
 			</div>
-
 		</c:forEach>
 	</div>
 </body>

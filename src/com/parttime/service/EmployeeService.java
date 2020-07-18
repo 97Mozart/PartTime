@@ -8,8 +8,11 @@ import java.util.List;
 import com.parttime.dao.EmployeeDao;
 import com.parttime.model.Address;
 import com.parttime.model.Arbitration;
+import com.parttime.model.EEvaluation;
 import com.parttime.model.Employee;
 import com.parttime.model.OrderAndRecruitment;
+import com.parttime.model.Orders;
+import com.parttime.model.OrdersAndEvaluation;
 
 public class EmployeeService {
 	EmployeeDao dao = new EmployeeDao();
@@ -67,5 +70,20 @@ public class EmployeeService {
 	// 插入仲裁信息
 	public void insertArbitration(Arbitration arbitration) throws Exception {
 		dao.insertArbitration(arbitration);
+	}
+
+	// 取消订单
+	public void beseitigenOrder(Orders orders) throws Exception {
+		dao.beseitigenOrder(orders);
+	}
+
+	// 通过雇员id查找评价信息【订单&评价联合表】
+	public List<OrdersAndEvaluation> queryEvaluation(Employee emp) throws Exception {
+		return dao.queryEvaluation(emp);
+	}
+
+	// 删除评价
+	public void deleteEvaluation(EEvaluation eEvaluation) throws Exception {
+		dao.deleteEvaluation(eEvaluation);
 	}
 }

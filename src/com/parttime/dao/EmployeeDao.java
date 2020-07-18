@@ -4,8 +4,11 @@ import java.util.List;
 
 import com.parttime.model.Address;
 import com.parttime.model.Arbitration;
+import com.parttime.model.EEvaluation;
 import com.parttime.model.Employee;
 import com.parttime.model.OrderAndRecruitment;
+import com.parttime.model.Orders;
+import com.parttime.model.OrdersAndEvaluation;
 import com.parttime.util.JdbcUtil;
 
 public class EmployeeDao {
@@ -73,7 +76,7 @@ public class EmployeeDao {
 		return address_list;
 	}
 
-	// 通过雇员id查找订单信息
+	// 通过雇员id查找订单信息【订单&工作联合表】
 	public List<OrderAndRecruitment> queryOrders(Employee emp) throws Exception {
 		sql = "SELECT	orders_id,	orders.employee_id,	orders.employee_name,	employee_sex,	"
 				+ "employee_education,	employee_tell,	employee_resume,"
@@ -92,7 +95,34 @@ public class EmployeeDao {
 	// 插入仲裁信息
 	public void insertArbitration(Arbitration arbitration) throws Exception {
 		sql = "INSERT into arbitration VALUES(NULL,?,?,?,'受理中')";
-		jdbc.updatePreparedStatement(sql, arbitration.getOrders_id(),arbitration.getEmployee_id(),
+		jdbc.updatePreparedStatement(sql, arbitration.getOrders_id(), arbitration.getEmployee_id(),
 				arbitration.getArbitration_content());
+	}
+
+	// 取消订单
+	public void beseitigenOrder(Orders orders) throws Exception {
+		sql = "delete from orders where orders_id = ?";
+		jdbc.updatePreparedStatement(sql, orders.getOrders_id());
+	}
+
+	// 通过雇员id查找评价信息【订单&评价联合表】
+	public List<OrdersAndEvaluation> queryEvaluation(Employee emp) throws Exception {
+		sql = "SELECT	orders.orders_id,	orders.employee_id,	orders.employee_name,	employee_sex,	"
+				+ "employee_education,	employee_tell,	employee_resume,"
+				+ "orders.business_id,	orders.business_name,	orders.recruitment_id,	"
+				+ "orders.recruitment_name,	orders_state,	employee_evaluated,	business_evaluated,"
+				+ "	orders_time ,business_evaluation_id,business_evaluation_rate,business_evaluation_context,"
+				+ "business_evaluation_time FROM	orders ,"
+				+ "business_evaluation WHERE	 orders.orders_id =  business_evaluation.orders_id "
+				+ " and orders.employee_id = ?";
+		List<OrdersAndEvaluation> evaluation_list = jdbc.queryPreparedStatement(sql, OrdersAndEvaluation.class,
+				emp.getEmployee_id());
+		return evaluation_list;
+	}
+
+	// 删除评价
+	public void deleteEvaluation(EEvaluation eEvaluation) throws Exception {
+		sql = "delete from business_evaluation where business_evaluation_id = ?";
+		jdbc.updatePreparedStatement(sql, eEvaluation.getBusiness_evaluation_id());
 	}
 }
