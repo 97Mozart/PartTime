@@ -3,9 +3,9 @@ package com.parttime.dao;
 import java.util.List;
 
 import com.parttime.model.Address;
+import com.parttime.model.Arbitration;
 import com.parttime.model.Employee;
 import com.parttime.model.OrderAndRecruitment;
-import com.parttime.model.Orders;
 import com.parttime.util.JdbcUtil;
 
 public class EmployeeDao {
@@ -84,7 +84,15 @@ public class EmployeeDao {
 				+ "recruitment_jobrequirements,recruitment_label	FROM	orders ,"
 				+ "recruitment WHERE	 orders.recruitment_id =  recruitment.recruitment_id "
 				+ " and orders.employee_id = ?";
-		List<OrderAndRecruitment> orders_list = jdbc.queryPreparedStatement(sql, OrderAndRecruitment.class, emp.getEmployee_id());
+		List<OrderAndRecruitment> orders_list = jdbc.queryPreparedStatement(sql, OrderAndRecruitment.class,
+				emp.getEmployee_id());
 		return orders_list;
+	}
+
+	// 插入仲裁信息
+	public void insertArbitration(Arbitration arbitration) throws Exception {
+		sql = "INSERT into arbitration VALUES(NULL,?,?,?,'受理中')";
+		jdbc.updatePreparedStatement(sql, arbitration.getOrders_id(),arbitration.getEmployee_id(),
+				arbitration.getArbitration_content());
 	}
 }

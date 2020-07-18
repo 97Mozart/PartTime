@@ -44,21 +44,15 @@
 						<div class="col-md-6 column"></div>
 					</div>
 					<!--工作描述-->
-					<p>
-						${orders.recruitment_jobcontent}
-					</p>
+					<p>${orders.recruitment_jobcontent}</p>
 					<!--工作要求-->
-					<p>
-						${orders.recruitment_jobrequirements}
-					</p>
+					<p>${orders.recruitment_jobrequirements}</p>
 					<div class="row clearfix">
 						<div class="col-md-6 column">
 							<div class="row clearfix">
 								<div class="col-md-8 column">
 									<!--工作状态-->
-									<p>
-										${orders.orders_state}
-									</p>
+									<p>${orders.orders_state}</p>
 								</div>
 								<div class="col-md-4 column"></div>
 							</div>
@@ -66,17 +60,27 @@
 						<div class="col-md-6 column">
 							<div class="row clearfix">
 								<!--评价-->
-								<div class="col-md-6 column">
-									<c:if test="${orders.employee_evaluated == 'YES'}">
-									<button type="button" class="btn btn-default" disabled>已评价</button>
-									</c:if>
-									<c:if test="${orders.employee_evaluated != 'YES'}">
-									<button type="button" class="btn btn-default">评价</button>
-									</c:if>
-								</div>
+								<form action="EmployeeOrdersServlet" method="post">
+									<input type="hidden" name="action" value="toBewerten">
+									<div class="col-md-6 column">
+										<c:if test="${orders.employee_evaluated == 'YES'}">
+											<button type="button" class="btn btn-default" disabled>已评价</button>
+										</c:if>
+										<c:if test="${orders.employee_evaluated != 'YES'}">
+											<button type="button" class="btn btn-default">评价</button>
+										</c:if>
+									</div>
+								</form>
 								<!--申请仲裁-->
 								<div class="col-md-6 column">
-									<button type="button" class="btn btn-default">申请仲裁</button>
+									<form action="EmployeeOrdersServlet" method="post">
+										<input type="hidden" name="action" value="toArbitration">
+										<input type="hidden" name="orders_id" value="${orders.orders_id}">
+										<input type="hidden" name="employee_id" value="${orders.employee_id}">
+										<input type="hidden" name="business_name" value="${orders.business_name}">
+										<c:set var="OrderAndRecruitment" value="${orders}" scope="request"></c:set>
+										<button type="submit" class="btn btn-default">申请仲裁</button>
+									</form>
 								</div>
 							</div>
 						</div>

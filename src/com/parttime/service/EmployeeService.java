@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.parttime.dao.EmployeeDao;
 import com.parttime.model.Address;
+import com.parttime.model.Arbitration;
 import com.parttime.model.Employee;
 import com.parttime.model.OrderAndRecruitment;
 
@@ -61,5 +62,10 @@ public class EmployeeService {
 	// 通过雇员id查找订单信息
 	public List<OrderAndRecruitment> queryOrders(Employee emp) throws Exception {
 		return dao.queryOrders(emp);
+	}
+
+	// 插入仲裁信息
+	public void insertArbitration(Arbitration arbitration) throws Exception {
+		dao.insertArbitration(arbitration);
 	}
 }
