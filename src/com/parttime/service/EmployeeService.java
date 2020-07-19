@@ -5,7 +5,7 @@ package com.parttime.service;
  */
 import java.util.List;
 
-import com.parttime.dao.EmployeeDao;
+import com.parttime.dao.EmployeeDao_lzw;
 import com.parttime.model.Address;
 import com.parttime.model.Arbitration;
 import com.parttime.model.EEvaluation;
@@ -16,7 +16,7 @@ import com.parttime.model.OrdersAndArbitration;
 import com.parttime.model.OrdersAndEvaluation;
 
 public class EmployeeService {
-	EmployeeDao dao = new EmployeeDao();
+	EmployeeDao_lzw dao = new EmployeeDao_lzw();
 
 	// 将雇员完善信息插入表中
 	public void insertEmployeeInfo(Employee emp) throws Exception {
