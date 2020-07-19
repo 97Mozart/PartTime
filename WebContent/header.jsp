@@ -11,7 +11,7 @@
 				<li class="active"><a href="EmployeeOrdersServlet?action=toorder">我的订单</a></li>
 				<li><a href="EmployeeOrdersServlet?action=tomywork">我的工作</a></li>
 				<li><a href="EmployeeOrdersServlet?action=toEvaluation">我的评价</a></li>
-				<li><a href="#">我的仲裁</a></li>
+				<li><a href="EmployeeOrdersServlet?action=arbitration">我的仲裁</a></li>
 
 				<li class="dropdown pull-right"><a href="#"
 					data-toggle="dropdown" class="dropdown-toggle">${employee.employee_name}<strong

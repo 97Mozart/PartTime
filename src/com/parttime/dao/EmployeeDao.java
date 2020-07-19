@@ -8,6 +8,7 @@ import com.parttime.model.EEvaluation;
 import com.parttime.model.Employee;
 import com.parttime.model.OrderAndRecruitment;
 import com.parttime.model.Orders;
+import com.parttime.model.OrdersAndArbitration;
 import com.parttime.model.OrdersAndEvaluation;
 import com.parttime.util.JdbcUtil;
 
@@ -124,5 +125,23 @@ public class EmployeeDao {
 	public void deleteEvaluation(EEvaluation eEvaluation) throws Exception {
 		sql = "delete from business_evaluation where business_evaluation_id = ?";
 		jdbc.updatePreparedStatement(sql, eEvaluation.getBusiness_evaluation_id());
+	}
+
+	// 通过雇员id查找评价信息【订单&仲裁联合表】
+	public List<OrdersAndArbitration> queryArbitration(Employee emp) throws Exception {
+		sql = "SELECT	orders.orders_id,	orders.employee_id,	orders.employee_name,	employee_sex,	"
+				+ "employee_education,	employee_tell,	employee_resume,"
+				+ "orders.business_id,	orders.business_name,	orders.recruitment_id,	"
+				+ "orders.recruitment_name,	orders_state,	employee_evaluated,	business_evaluated,"
+				+ "	orders_time ,arbitration_id,arbitration_content,arbitration_state FROM	orders ,"
+				+ "arbitration WHERE	 orders.orders_id =  arbitration.orders_id " + " and orders.employee_id = ?";
+		List<OrdersAndArbitration> arbitration_list = jdbc.queryPreparedStatement(sql, OrdersAndArbitration.class, emp.getEmployee_id());
+		return arbitration_list;
+	}
+
+	// 取消仲裁
+	public void deleteArbitration(Arbitration arbitration) throws Exception {
+		sql = "delete from arbitration where arbitration_id = ?";
+		jdbc.updatePreparedStatement(sql, arbitration.getArbitration_id());
 	}
 }

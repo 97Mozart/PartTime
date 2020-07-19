@@ -44,11 +44,6 @@ public class UserServlet extends HttpServlet {
 		if (action.equals("login")) {
 			login(request, response);
 			return;
-		} else if (action.equals("exit")) {
-			request.getSession().invalidate();
-			response.sendRedirect("login.jsp");
-		} else if (action.equals("update")) {
-
 		}
 
 	}

@@ -15,6 +15,7 @@ import com.parttime.model.EEvaluation;
 import com.parttime.model.Employee;
 import com.parttime.model.OrderAndRecruitment;
 import com.parttime.model.Orders;
+import com.parttime.model.OrdersAndArbitration;
 import com.parttime.model.OrdersAndEvaluation;
 import com.parttime.service.EmployeeService;
 import com.parttime.util.Conversion;
@@ -58,6 +59,10 @@ public class EmployeeOrdersServlet extends HttpServlet {
 			toEvaluation(request, response);
 		} else if (action.equals("deleteEvaluation")) {
 			deleteEvaluation(request, response);
+		} else if (action.equals("arbitration")) {
+			arbitration(request, response);
+		} else if (action.equals("deleteArbitration")) {
+			deleteArbitration(request, response);
 		}
 	}
 
@@ -178,12 +183,48 @@ public class EmployeeOrdersServlet extends HttpServlet {
 	protected void deleteEvaluation(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			EEvaluation eEvaluation = new EEvaluation();//雇员评价表对象
+			EEvaluation eEvaluation = new EEvaluation();// 雇员评价表对象
 			Conversion.convert(eEvaluation, request);
 
 			// 通过评价表编号删除评价
 			service.deleteEvaluation(eEvaluation);
 			request.setAttribute("mess", "评价已删除");
+			request.getRequestDispatcher("user-center.jsp").forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.sendRedirect("error.jsp");
+		}
+	}
+
+	// 跳转到我的仲裁页面
+	protected void arbitration(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			// 查询session中 账户信息
+			HttpSession session = request.getSession();
+			Employee employee = (Employee) session.getAttribute("employee");
+
+			// 通过雇员id查找仲裁信息
+			List<OrdersAndArbitration> arbitration_list = service.queryArbitration(employee);
+			request.setAttribute("arbitration_list", arbitration_list);
+
+			request.getRequestDispatcher("arbitration.jsp").forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.sendRedirect("error.jsp");
+		}
+	}
+
+	// 取消仲裁
+	protected void deleteArbitration(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			Arbitration arbitration = new Arbitration();// 雇员仲裁表对象
+			Conversion.convert(arbitration, request);
+
+			// 通过仲裁表编号删除仲裁
+			service.deleteArbitration(arbitration);
+			request.setAttribute("mess", "仲裁已取消");
 			request.getRequestDispatcher("user-center.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();

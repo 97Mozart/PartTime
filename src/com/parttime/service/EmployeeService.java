@@ -12,6 +12,7 @@ import com.parttime.model.EEvaluation;
 import com.parttime.model.Employee;
 import com.parttime.model.OrderAndRecruitment;
 import com.parttime.model.Orders;
+import com.parttime.model.OrdersAndArbitration;
 import com.parttime.model.OrdersAndEvaluation;
 
 public class EmployeeService {
@@ -85,5 +86,15 @@ public class EmployeeService {
 	// 删除评价
 	public void deleteEvaluation(EEvaluation eEvaluation) throws Exception {
 		dao.deleteEvaluation(eEvaluation);
+	}
+
+	// 通过雇员id查找我的仲裁信息
+	public List<OrdersAndArbitration> queryArbitration(Employee emp) throws Exception {
+		return dao.queryArbitration(emp);
+	}
+
+	// 取消仲裁
+	public void deleteArbitration(Arbitration arbitration) throws Exception {
+		dao.deleteArbitration(arbitration);
 	}
 }
