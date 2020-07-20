@@ -12,7 +12,7 @@ import com.parttime.model.OrdersAndArbitration;
 import com.parttime.model.OrdersAndEvaluation;
 import com.parttime.util.JdbcUtil;
 
-public class EmployeeDao_lzw {
+public class EmployeeDao_LIU {
 	JdbcUtil jdbc = new JdbcUtil();
 	String sql = "";
 
