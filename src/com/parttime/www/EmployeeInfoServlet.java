@@ -35,6 +35,12 @@ public class EmployeeInfoServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 
 		// 判断用户是否登录
+		HttpSession session = request.getSession();
+		Employee emp = (Employee) session.getAttribute("employee");
+		if (emp==null || emp.equals("")) {
+			response.sendRedirect("login.jsp");
+			return;
+		}
 
 		// 返回操作
 		String action = request.getParameter("action");

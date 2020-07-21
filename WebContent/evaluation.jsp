@@ -29,7 +29,7 @@
 	<div class="container">
 		<%@ include file="header.jsp"%>
 		<div class="top">
-			<font>我的订单</font>
+			<font>我的评价</font>
 		</div>
 		<c:forEach items="${evaluation_list}" var="evaluation">
 			<div class="row clearfix">
