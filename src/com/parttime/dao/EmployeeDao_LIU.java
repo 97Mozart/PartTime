@@ -4,12 +4,10 @@ import java.util.List;
 
 import com.parttime.model.Address;
 import com.parttime.model.Arbitration;
-import com.parttime.model.EEvaluation;
+import com.parttime.model.BusinessEvaluation;
 import com.parttime.model.Employee;
-import com.parttime.model.OrderAndRecruitment;
 import com.parttime.model.Orders;
-import com.parttime.model.OrdersAndArbitration;
-import com.parttime.model.OrdersAndEvaluation;
+import com.parttime.model.Recruitment;
 import com.parttime.util.JdbcUtil;
 
 public class EmployeeDao_LIU {
@@ -77,20 +75,24 @@ public class EmployeeDao_LIU {
 		return address_list;
 	}
 
-	// 通过雇员id查找订单信息【订单&工作联合表】
-	public List<OrderAndRecruitment> queryOrders(Employee emp) throws Exception {
-		sql = "SELECT	orders_id,	orders.employee_id,	orders.employee_name,	employee_sex,	"
-				+ "employee_education,	employee_tell,	employee_resume,"
-				+ "orders.business_id,	orders.business_name,	orders.recruitment_id,	"
-				+ "orders.recruitment_name,	orders_state,	employee_evaluated,	business_evaluated,"
-				+ "	orders_time ,recruitment_area,recruitment_salary,recruitment_num,recruitment_time,"
-				+ "recruitment_duration,recruitment_welfare,recruitment_jobcontent,"
-				+ "recruitment_jobrequirements,recruitment_label	FROM	orders ,"
-				+ "recruitment WHERE	 orders.recruitment_id =  recruitment.recruitment_id "
-				+ " and orders.employee_id = ?";
-		List<OrderAndRecruitment> orders_list = jdbc.queryPreparedStatement(sql, OrderAndRecruitment.class,
-				emp.getEmployee_id());
-		return orders_list;
+	// 通过employee_id查询订单
+	public List<Orders> queryOrder(Employee emp) throws Exception {
+		sql = "SELECT orders.orders_id,orders.employee_id,orders.employee_name,orders.employee_sex,orders.employee_education,orders.employee_tell,orders.employee_resume,orders.business_id,orders.business_name,orders.recruitment_id,orders.recruitment_name,orders.orders_state,orders.employee_evaluated,orders.business_evaluated,orders.orders_time from orders where orders.employee_id = ?";
+		List<Orders> orders = jdbc.queryPreparedStatement(sql, Orders.class, emp.getEmployee_id());
+		return orders;
+	}
+
+	// 通过recruitment_id查询工作
+	public List<Recruitment> queryRecruitment(Orders order) throws Exception {
+		sql = "SELECT recruitment.recruitment_id,recruitment.recruitment_name,recruitment.recruitment_area,recruitment.recruitment_salary,recruitment.recruitment_num,recruitment.recruitment_time,recruitment.recruitment_duration,recruitment.recruitment_welfare,recruitment.recruitment_jobcontent,recruitment.recruitment_jobrequirements,recruitment.recruitment_label,recruitment.business_id,recruitment.business_name from recruitment WHERE  recruitment.recruitment_id = ?";
+		List<Recruitment> recruitments = jdbc.queryPreparedStatement(sql, Recruitment.class, order.getRecruitment_id());
+		return recruitments;
+	}
+	// 通过recruitment_id查询工作
+	public List<Recruitment> queryRecruitment(String recruitmentid) throws Exception {
+		sql = "SELECT recruitment.recruitment_id,recruitment.recruitment_name,recruitment.recruitment_area,recruitment.recruitment_salary,recruitment.recruitment_num,recruitment.recruitment_time,recruitment.recruitment_duration,recruitment.recruitment_welfare,recruitment.recruitment_jobcontent,recruitment.recruitment_jobrequirements,recruitment.recruitment_label,recruitment.business_id,recruitment.business_name from recruitment WHERE  recruitment.recruitment_id = ?";
+		List<Recruitment> recruitments = jdbc.queryPreparedStatement(sql, Recruitment.class, recruitmentid);
+		return recruitments;
 	}
 
 	// 插入仲裁信息
@@ -106,37 +108,38 @@ public class EmployeeDao_LIU {
 		jdbc.updatePreparedStatement(sql, orders.getOrders_id());
 	}
 
-	// 通过雇员id查找评价信息【订单&评价联合表】
-	public List<OrdersAndEvaluation> queryEvaluation(Employee emp) throws Exception {
-		sql = "SELECT	orders.orders_id,	orders.employee_id,	orders.employee_name,	employee_sex,	"
-				+ "employee_education,	employee_tell,	employee_resume,"
-				+ "orders.business_id,	orders.business_name,	orders.recruitment_id,	"
-				+ "orders.recruitment_name,	orders_state,	employee_evaluated,	business_evaluated,"
-				+ "	orders_time ,business_evaluation_id,business_evaluation_rate,business_evaluation_context,"
-				+ "business_evaluation_time FROM	orders ,"
-				+ "business_evaluation WHERE	 orders.orders_id =  business_evaluation.orders_id "
-				+ " and orders.employee_id = ?";
-		List<OrdersAndEvaluation> evaluation_list = jdbc.queryPreparedStatement(sql, OrdersAndEvaluation.class,
-				emp.getEmployee_id());
-		return evaluation_list;
+	// 通过employee_id查询已评价订单
+	public List<Orders> queryOrder2(Employee emp) throws Exception {
+		sql = "SELECT orders.orders_id,orders.employee_id,orders.employee_name,orders.employee_sex,orders.employee_education,orders.employee_tell,orders.employee_resume,orders.business_id,orders.business_name,orders.recruitment_id,orders.recruitment_name,orders.orders_state,orders.employee_evaluated,orders.business_evaluated,orders.orders_time from orders where orders.business_evaluated = 'YES' and orders.employee_id = ?";
+		List<Orders> orders = jdbc.queryPreparedStatement(sql, Orders.class, emp.getEmployee_id());
+		return orders;
+	}
+
+	// 通过Orders_id查询雇员对商家的评价
+	public List<BusinessEvaluation> queryEvaluation(Orders order) throws Exception {
+		sql = "SELECT business_evaluation.business_evaluation_id,business_evaluation.business_evaluation_rate,business_evaluation.business_evaluation_context,business_evaluation.business_evaluation_time,business_evaluation.business_id,business_evaluation.orders_id FROM business_evaluation WHERE business_evaluation.orders_id = ?";
+		List<BusinessEvaluation> businessEvaluations = jdbc.queryPreparedStatement(sql, BusinessEvaluation.class,
+				order.getOrders_id());
+		return businessEvaluations;
 	}
 
 	// 删除评价
-	public void deleteEvaluation(EEvaluation eEvaluation) throws Exception {
+	public void deleteEvaluation(BusinessEvaluation eEvaluation) throws Exception {
 		sql = "delete from business_evaluation where business_evaluation_id = ?";
 		jdbc.updatePreparedStatement(sql, eEvaluation.getBusiness_evaluation_id());
 	}
 
-	// 通过雇员id查找评价信息【订单&仲裁联合表】
-	public List<OrdersAndArbitration> queryArbitration(Employee emp) throws Exception {
-		sql = "SELECT	orders.orders_id,	orders.employee_id,	orders.employee_name,	employee_sex,	"
-				+ "employee_education,	employee_tell,	employee_resume,"
-				+ "orders.business_id,	orders.business_name,	orders.recruitment_id,	"
-				+ "orders.recruitment_name,	orders_state,	employee_evaluated,	business_evaluated,"
-				+ "	orders_time ,arbitration_id,arbitration_content,arbitration_state FROM	orders ,"
-				+ "arbitration WHERE	 orders.orders_id =  arbitration.orders_id " + " and orders.employee_id = ?";
-		List<OrdersAndArbitration> arbitration_list = jdbc.queryPreparedStatement(sql, OrdersAndArbitration.class, emp.getEmployee_id());
-		return arbitration_list;
+	// 修改订单评价状态
+	public void updateEvaluation(BusinessEvaluation eEvaluation) throws Exception {
+		sql = "update orders set business_evaluated = 'NO' where orders_id = ?";
+		jdbc.updatePreparedStatement(sql, eEvaluation.getOrders_id());
+	}
+
+	// 通过Orders_id查询雇员对商家的评价
+	public List<Arbitration> queryArbitration(Orders order) throws Exception {
+		sql = "SELECT arbitration.arbitration_id,arbitration.orders_id,arbitration.employee_id,arbitration.arbitration_content,arbitration.arbitration_state FROM arbitration where arbitration.orders_id = ?";
+		List<Arbitration> arbitrations = jdbc.queryPreparedStatement(sql, Arbitration.class, order.getOrders_id());
+		return arbitrations;
 	}
 
 	// 取消仲裁
@@ -144,4 +147,11 @@ public class EmployeeDao_LIU {
 		sql = "delete from arbitration where arbitration_id = ?";
 		jdbc.updatePreparedStatement(sql, arbitration.getArbitration_id());
 	}
+
+	// 取消仲裁 通过order_id取消
+	public void deleteArbitration(Orders orders) throws Exception {
+		sql = "delete from arbitration where orders_id = ?";
+		jdbc.updatePreparedStatement(sql, orders.getOrders_id());
+	}
+
 }

@@ -1,71 +1,100 @@
 package com.parttime.model;
 
-/*
- * 管理员表
+/**
+ * @author 咚咚dongdong
+ * Date: 2020/7/16
+ * Time: 16:25
  */
+@SuppressWarnings(value = "all")
 public class Address {
-	private Integer address_id;// 地址编号
-	private String address_province;// 省份
-	private String address_city;// 市区
-	private String address_county;// 县城（区）
-	private String address_detail;// 详细地址
-	private Integer employee_id;// 雇员编号【以下二选一】
-	private Integer business_id;// 商家编号
+    private int address_id;
 
-	public Integer getAddress_id() {
-		return address_id;
+    private String address_province;
+
+    private String address_city;
+
+    private String address_county;
+
+    private String address_detail;
+
+    private int employee_id;
+
+    private int business_id;
+
+    public int getAddress_id() {
+        return address_id;
+    }
+
+    public void setAddress_id(int address_id) {
+        this.address_id = address_id;
+    }
+
+    public String getAddress_province() {
+        return address_province;
+    }
+
+    public void setAddress_province(String address_province) {
+        this.address_province = address_province;
+    }
+
+    public String getAddress_city() {
+        return address_city;
+    }
+
+    public void setAddress_city(String address_city) {
+        this.address_city = address_city;
+    }
+
+    public String getAddress_county() {
+        return address_county;
+    }
+
+    public void setAddress_county(String address_county) {
+        this.address_county = address_county;
+    }
+
+    public String getAddress_detail() {
+        return address_detail;
+    }
+
+    public void setAddress_detail(String address_detail) {
+        this.address_detail = address_detail;
+    }
+
+    public int getEmployee_id() {
+        return employee_id;
+    }
+
+    public void setEmployee_id(int employee_id) {
+        this.employee_id = employee_id;
+    }
+
+    public int getBusiness_id() {
+        return business_id;
+    }
+
+    public void setBusiness_id(int business_id) {
+        this.business_id = business_id;
+    }
+
+    public Address() {
+    }
+
+    public Address(int address_id, String address_province, String address_city, String address_county, String address_detail, int employee_id, int business_id) {
+        this.address_id = address_id;
+        this.address_province = address_province;
+        this.address_city = address_city;
+        this.address_county = address_county;
+        this.address_detail = address_detail;
+        this.employee_id = employee_id;
+        this.business_id = business_id;
+    }
+
+	@Override
+	public String toString() {
+		return "Address [address_id=" + address_id + ", address_province=" + address_province + ", address_city="
+				+ address_city + ", address_county=" + address_county + ", address_detail=" + address_detail
+				+ ", employee_id=" + employee_id + ", business_id=" + business_id + "]";
 	}
-
-	public void setAddress_id(Integer address_id) {
-		this.address_id = address_id;
-	}
-
-	public String getAddress_province() {
-		return address_province;
-	}
-
-	public void setAddress_province(String address_province) {
-		this.address_province = address_province;
-	}
-
-	public String getAddress_city() {
-		return address_city;
-	}
-
-	public void setAddress_city(String address_city) {
-		this.address_city = address_city;
-	}
-
-	public String getAddress_county() {
-		return address_county;
-	}
-
-	public void setAddress_county(String address_county) {
-		this.address_county = address_county;
-	}
-
-	public String getAddress_detail() {
-		return address_detail;
-	}
-
-	public void setAddress_detail(String address_detail) {
-		this.address_detail = address_detail;
-	}
-
-	public Integer getEmployee_id() {
-		return employee_id;
-	}
-
-	public void setEmployee_id(Integer employee_id) {
-		this.employee_id = employee_id;
-	}
-
-	public Integer getBusiness_id() {
-		return business_id;
-	}
-
-	public void setBusiness_id(Integer business_id) {
-		this.business_id = business_id;
-	}
-
+    
 }

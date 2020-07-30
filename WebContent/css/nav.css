@@ -1,0 +1,34 @@
+@CHARSET "UTF-8";
+/* 个人主页提示信息 */
+.top {
+	text-align: center;
+	font-size: 34px;
+	font-family: 华文行楷;
+}
+/* 导航条控制 */
+.navbar{
+	background-color: #5DD5C8;
+}
+.nav li a{
+	height: 50px;
+	line-height: 30px
+}
+.company{
+	font-size: 20px;
+}
+.box{
+	border-bottom-style: inset;
+	margin-left: 35px;
+}
+.box p{
+	margin-left: 25px;
+}
+/* 按钮美化 */
+.btn-design{
+	margin: auto;
+}
+/* 输入框 */
+.inp-out{
+	width: 60%；
+}
+/* 表单校验 */

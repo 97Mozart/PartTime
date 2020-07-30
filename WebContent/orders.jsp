@@ -18,41 +18,64 @@
 <script
 	src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="../js/jquery-1.8.3.js"></script>
-<style type="text/css">
-.top {
-	text-align: center;
-	font-size: 26px;
-}
-</style>
+<link rel="stylesheet" href="css/nav.css">
 </head>
 <body>
 	<div class="container">
-		<%@ include file="header.jsp"%>
+		<!-- 个人信息头部页面 -->
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<!-- 跳转回首页 -->
+					<a class="navbar-brand" href="#">PartTime用户中心</a>
+				</div>
+				<div>
+					<ul class="nav nav-tabs">
+						<li><a href="EmployeeOrders">我的订单</a></li>
+						<li><a href="EmployeeWork">我的工作</a></li>
+						<li><a href="EmployeeEvaluate">我的评价</a></li>
+						<li><a href="EmployeeArbitration">我的仲裁</a></li>
+		
+						<li class="dropdown pull-right"><a href="#"
+							data-toggle="dropdown" class="dropdown-toggle">${employee.employee_name}<strong
+								class="caret"></strong></a>
+							<ul class="dropdown-menu">
+								<li><a href="EmployeeInfo">个人资料</a></li>
+								<li class="divider"></li>
+								<li><a href="EmployeePasswordModify">密码修改</a></li>
+								<li class="divider"></li>
+								<li><a href="EmployeeInfoServlet?action=exit">退出</a></li>
+								<li class="divider"></li>
+							</ul></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
 		<div class="top">
 			<font>我的订单</font>
 		</div>
-		<c:forEach items="${orders_list}" var="orders">
-			<div class="row clearfix">
+		<c:forEach items="${recruitments}" var="recruitment">
+			<div class="row clearfix box">
 				<div class="col-md-12 column">
 					<div class="row clearfix">
 						<!--商家信息-->
 						<div class="col-md-6 column">
 
-							<h3>${orders.business_name}</h3>
+							<h3 class="company"><b><a href='EmployeeOrderInfo?recruitmentid=${recruitment.key.recruitment_id}'>${recruitment.key.business_name}</a></b></h3>
 
 						</div>
 						<div class="col-md-6 column"></div>
 					</div>
 					<!--工作描述-->
-					<p>${orders.recruitment_jobcontent}</p>
+					<p>工作内容：&nbsp;${recruitment.value.recruitment_jobcontent}</p>
 					<!--工作要求-->
-					<p>${orders.recruitment_jobrequirements}</p>
+					<p>工作要求：&nbsp;${recruitment.value.recruitment_jobrequirements}</p>
 					<div class="row clearfix">
 						<div class="col-md-6 column">
 							<div class="row clearfix">
 								<div class="col-md-8 column">
 									<!--工作状态-->
-									<p>${orders.orders_state}</p>
+									<p>当前订单状态：&nbsp;${recruitment.key.orders_state}</p>
 								</div>
 								<div class="col-md-4 column"></div>
 							</div>
@@ -63,23 +86,25 @@
 								<form action="EmployeeOrdersServlet" method="post">
 									<input type="hidden" name="action" value="toBewerten">
 									<div class="col-md-6 column">
-										<c:if test="${orders.employee_evaluated == 'YES'}">
+										<c:if test="${recruitment.key.business_evaluated == 'YES'}">
 											<button type="button" class="btn btn-default" disabled>已评价</button>
 										</c:if>
 										<!-- 判断工作是否已完成 -->
-										<c:if test="${orders.employee_evaluated != 'YES' && (orders.orders_state == '已完成' || orders.orders_state == '已结账')}">
+										<c:if test="${recruitment.key.business_evaluated != 'YES' && (recruitment.key.orders_state == '已完成' || recruitment.key.orders_state == '已结账')}">
 											<button type="button" class="btn btn-default">评价</button>
 										</c:if>
 									</div>
 								</form>
 								<!--申请仲裁-->
 								<div class="col-md-6 column">
-									<form action="EmployeeOrdersServlet" method="post">
-										<input type="hidden" name="action" value="toArbitration">
-										<input type="hidden" name="orders_id" value="${orders.orders_id}">
-										<input type="hidden" name="employee_id" value="${orders.employee_id}">
-										<input type="hidden" name="business_name" value="${orders.business_name}">
-										<c:set var="OrderAndRecruitment" value="${orders}" scope="request"></c:set>
+									<form action="EmployeeRequestArbitration" method="get">
+										<input type="hidden" name="orders_id"
+											value="${recruitment.key.orders_id}"> <input type="hidden"
+											name="employee_id" value="${recruitment.key.employee_id}"> <input
+											type="hidden" name="business_name"
+											value="${recruitment.key.business_name}">
+										<%-- <c:set var="OrderAndRecruitment" value="${orders}"
+											scope="request"></c:set> --%>
 										<button type="submit" class="btn btn-default">申请仲裁</button>
 									</form>
 								</div>

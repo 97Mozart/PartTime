@@ -1,4 +1,4 @@
-package com.parttime.model;
+/*package com.parttime.model;
 
 import java.util.Date;
 
@@ -60,3 +60,4 @@ public class EEvaluation {
 	}
 
 }
+*/

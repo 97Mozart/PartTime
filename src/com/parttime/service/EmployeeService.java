@@ -8,12 +8,10 @@ import java.util.List;
 import com.parttime.dao.EmployeeDao_LIU;
 import com.parttime.model.Address;
 import com.parttime.model.Arbitration;
-import com.parttime.model.EEvaluation;
+import com.parttime.model.BusinessEvaluation;
 import com.parttime.model.Employee;
-import com.parttime.model.OrderAndRecruitment;
 import com.parttime.model.Orders;
-import com.parttime.model.OrdersAndArbitration;
-import com.parttime.model.OrdersAndEvaluation;
+import com.parttime.model.Recruitment;
 
 public class EmployeeService {
 	EmployeeDao_LIU dao = new EmployeeDao_LIU();
@@ -63,9 +61,18 @@ public class EmployeeService {
 		return dao.queryAddress(add);
 	}
 
-	// 通过雇员id查找订单信息
-	public List<OrderAndRecruitment> queryOrders(Employee emp) throws Exception {
-		return dao.queryOrders(emp);
+	// 通过employee_id查询订单
+	public List<Orders> queryOrder(Employee emp) throws Exception {
+		return dao.queryOrder(emp);
+	}
+
+	// 通过recruitment_id查询工作
+	public List<Recruitment> queryRecruitment(Orders order) throws Exception {
+		return dao.queryRecruitment(order);
+	}
+	// 通过recruitment_id查询工作
+	public List<Recruitment> queryRecruitment(String recruitmentid) throws Exception {
+		return dao.queryRecruitment(recruitmentid);
 	}
 
 	// 插入仲裁信息
@@ -78,23 +85,38 @@ public class EmployeeService {
 		dao.beseitigenOrder(orders);
 	}
 
-	// 通过雇员id查找评价信息【订单&评价联合表】
-	public List<OrdersAndEvaluation> queryEvaluation(Employee emp) throws Exception {
-		return dao.queryEvaluation(emp);
+	// 通过employee_id查询已评价订单
+	public List<Orders> queryOrder2(Employee emp) throws Exception {
+		return dao.queryOrder2(emp);
+	}
+
+	// 通过recruitment_id查询雇员对商家的评价
+	public List<BusinessEvaluation> queryEvaluation(Orders order) throws Exception {
+		return dao.queryEvaluation(order);
 	}
 
 	// 删除评价
-	public void deleteEvaluation(EEvaluation eEvaluation) throws Exception {
+	public void deleteEvaluation(BusinessEvaluation eEvaluation) throws Exception {
 		dao.deleteEvaluation(eEvaluation);
 	}
 
-	// 通过雇员id查找我的仲裁信息
-	public List<OrdersAndArbitration> queryArbitration(Employee emp) throws Exception {
-		return dao.queryArbitration(emp);
+	// 修改订单评价状态
+	public void updateEvaluation(BusinessEvaluation eEvaluation) throws Exception {
+		dao.updateEvaluation(eEvaluation);
+	}
+
+	// 通过Orders_id查询雇员对商家的评价
+	public List<Arbitration> queryArbitration(Orders order) throws Exception {
+		return dao.queryArbitration(order);
 	}
 
 	// 取消仲裁
 	public void deleteArbitration(Arbitration arbitration) throws Exception {
 		dao.deleteArbitration(arbitration);
+	}
+
+	// 取消仲裁 通过order_id取消
+	public void deleteArbitration(Orders orders) throws Exception {
+		dao.deleteArbitration(orders);
 	}
 }

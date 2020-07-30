@@ -1,19 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" isErrorPage="true"%>
-<!DOCTYPE html>
+<%--
+  Created by IntelliJ IDEA.
+  User: 咚咚dongdong
+  Date: 2020/7/13
+  Time: 15:54
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isErrorPage="true" %>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-<style type="text/css">
-body{
-	color: red;
-	font-size: 36px;
-	text-align: center;
-}
-</style>
+    <title>Title</title>
 </head>
 <body>
-	操作出错，请稍后再试
+有错误
 </body>
 </html>

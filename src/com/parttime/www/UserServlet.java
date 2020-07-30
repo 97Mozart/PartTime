@@ -20,7 +20,6 @@ import com.parttime.util.JdbcUtil;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/user")
 public class UserServlet extends HttpServlet {
 
 	/**
@@ -65,13 +64,7 @@ public class UserServlet extends HttpServlet {
 				// 将用户对象存入session中
 				session.setAttribute("employee", employee);
 				
-				Integer address_id = employee.getAddress_id();
-				//判断是否为新注册用户
-				if(employee.getAddress_id()==null || employee.getAddress_id().equals("") || employee.getAddress_id()==0){
-					request.getRequestDispatcher("user-info-add.jsp").forward(request, response);
-				}else{
-					request.getRequestDispatcher("user-center.jsp").forward(request, response);
-				}
+				response.sendRedirect("EmployeeCenter");
 			} else {
 				// 登录失败
 				request.setAttribute("mess", "账号或密码错误");
